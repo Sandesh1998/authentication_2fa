@@ -130,6 +130,7 @@ class UserService {
       status: "success",
       data: {
         message: "Two-way authentication enabled successfully",
+       enable2fa:user.enable2fa
       },
     };
   }
