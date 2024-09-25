@@ -1,8 +1,8 @@
 pipeline {
     agent any
     
-    environment {
-        NODE_VERSION = '16'  // Specify the Node.js version you need
+    tools {
+        nodejs 'Node 16'  // Make sure this matches a NodeJS installation name in your Jenkins configuration
     }
     
     stages {
@@ -14,14 +14,9 @@ pipeline {
         
         stage('Setup') {
             steps {
-                // Use nvm to install and use the specified Node.js version
                 sh '''
-                    export NVM_DIR="$HOME/.nvm"
-                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-                    nvm install ${NODE_VERSION}
-                    nvm use ${NODE_VERSION}
-                    
-                    # Install yarn globally using npm
+                    node -v
+                    npm -v
                     npm install -g yarn
                 '''
             }
@@ -48,7 +43,6 @@ pipeline {
     
     post {
         always {
-            // Clean up workspace
             cleanWs()
         }
     }
