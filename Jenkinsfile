@@ -8,7 +8,7 @@ pipeline {
         }
        stage("Test"){
         steps {
-            sh 'sudo yarn install'
+            sh 'sudo apt install yarn'
             sh 'yarn test'
         }
        }
