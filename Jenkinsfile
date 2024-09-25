@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Get code from GitHub repository
-                git 'https://github.com/Sandesh1998/authentication_2fa.git'
+                git branch: 'main', url: 'https://github.com/Sandesh1998/authentication_2fa.git'
             }
         }
         
