@@ -1,10 +1,6 @@
 pipeline {
     agent any
     
-    tools {
-        nodejs 'Node 16'  // Make sure this matches a NodeJS installation name in your Jenkins configuration
-    }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -15,9 +11,22 @@ pipeline {
         stage('Setup') {
             steps {
                 sh '''
+                    # Check if Node.js is installed
+                    if ! command -v node &> /dev/null; then
+                        echo "Node.js is not installed. Installing Node.js 16.x..."
+                        curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+                        sudo apt-get install -y nodejs
+                    fi
+                    
+                    # Display Node.js and npm versions
                     node -v
                     npm -v
-                    npm install -g yarn
+                    
+                    # Install Yarn globally
+                    sudo npm install -g yarn
+                    
+                    # Display Yarn version
+                    yarn -v
                 '''
             }
         }
