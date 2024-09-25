@@ -1,58 +1,33 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                // Get code from GitHub repository
+                git 'https://github.com/Sandesh1998/authentication_2fa.git'
             }
         }
         
-        stage('Setup') {
+        stage('Install dependencies') {
             steps {
-                sh '''
-                    # Check if Node.js is installed
-                    if ! command -v node &> /dev/null; then
-                        echo "Node.js is not installed. Installing Node.js 16.x..."
-                        curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-                        sudo apt-get install -y nodejs
-                    fi
-                    
-                    # Display Node.js and npm versions
-                    node -v
-                    npm -v
-                    
-                    # Install Yarn globally
-                    sudo npm install -g yarn
-                    
-                    # Display Yarn version
-                    yarn -v
-                '''
+                // Install Node.js dependencies
+                sh 'npm install'
             }
         }
         
-        stage('Install Dependencies') {
+        stage('Run tests') {
             steps {
-                sh 'yarn install'
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                sh 'yarn test'
+                // Run Node.js tests
+                sh 'npm test'
             }
         }
         
         stage('Build') {
             steps {
-                sh 'yarn build'
+                // Build your application if necessary
+                sh 'npm run build'
             }
-        }
-    }
-    
-    post {
-        always {
-            cleanWs()
         }
     }
 }
